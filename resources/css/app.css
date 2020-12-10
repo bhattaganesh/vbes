@@ -1,0 +1,242 @@
+/*@import url('https://fonts.googleapis.com/css?family=Nunito');*/
+@import "../templates/front/Bethany/google-api.css";
+/*@import "~bootstrap/dist/css/bootstrap.css";*/
+@import "~@fortawesome/fontawesome-free/css/all.css";
+@import "../templates/front/Bethany/assets/vendor/bootstrap/css/bootstrap.min.css";
+@import "../templates/front/Bethany/assets/vendor/icofont/icofont.min.css";
+@import "../templates/front/Bethany/assets/vendor/boxicons/css/boxicons.min.css";
+@import "../templates/front/Bethany/assets/vendor/remixicon/remixicon.css";
+@import "../templates/front/Bethany/assets/vendor/venobox/venobox.css";
+@import "../templates/front/Bethany/assets/vendor/owl.carousel/assets/owl.carousel.min.css";
+@import "../templates/front/Bethany/assets/vendor/aos/aos.css";
+@import "../templates/front/Bethany/assets/css/style.css";
+@import "../templates/front/Bethany/Login_v1/vendor/animate/animate.css";
+@import "../templates/front/Bethany/Login_v1/vendor/css-hamburgers/hamburgers.min.css";
+@import "../templates/front/Bethany/Login_v1/vendor/select2/select2.min.css";
+@import "../templates/front/Bethany/Login_v1/css/util.css";
+@import "../templates/front/Bethany/Login_v1/css/main.css";
+@import "~rateyo/lib/cjs/rateyo.css";
+
+
+
+.breadcrumbs {
+  padding: 15px 0;
+  background: #fff;
+  margin-top: 100px;
+  margin-bottom: -60px;
+}
+
+.form {
+  width: 100%;
+  padding: 30px;
+  background: #fff;
+  box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.12);
+}
+.counts p,.why-us p{
+    color: #fff;
+}
+
+.login100-form-btn:hover {
+  background: #00805d;
+  color: #fff;
+}
+
+.get-started-active a{
+  background-color: #00805d !important;
+}
+
+.mobile-nav .get-started {
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.custom-control-label:before{
+    /*background-color:red;*/
+}
+.custom-checkbox .custom-control-input:checked~.custom-control-label::before{
+    background-color:#009970;
+}
+.custom-checkbox .custom-control-input:checked~.custom-control-label::after{
+    /*background-image:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='red' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3E%3C/svg%3E");*/
+}
+.custom-control-input:active~.custom-control-label::before{
+    /*background-color:green;*/
+}
+
+/** focus shadow pinkish **/
+.custom-checkbox .custom-control-input:focus~.custom-control-label::before{
+    /*box-shadow: 0 0 0 1px #fff, 0 0 0 0.2rem rgba(255, 0, 247, 0.25); */
+    box-shadow: none;
+    border: 1px solid #ccc;
+}
+
+
+.alert {
+  position: relative;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+}
+
+.alert-heading {
+  color: inherit;
+}
+
+.alert-link {
+  font-weight: 700;
+}
+
+.alert-dismissible {
+  padding-right: 4rem;
+}
+
+.alert-dismissible .close, .alert-dismissible .mailbox-attachment-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.75rem 1.25rem;
+  color: inherit;
+}
+
+.alert-primary {
+  color: #004085;
+  background-color: #cce5ff;
+  border-color: #b8daff;
+}
+
+.alert-primary hr {
+  border-top-color: #9fcdff;
+}
+
+.alert-primary .alert-link {
+  color: #002752;
+}
+
+.alert-secondary {
+  color: #383d41;
+  background-color: #e2e3e5;
+  border-color: #d6d8db;
+}
+
+.alert-secondary hr {
+  border-top-color: #c8cbcf;
+}
+
+.alert-secondary .alert-link {
+  color: #202326;
+}
+
+.alert-success {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+
+.alert-success hr {
+  border-top-color: #b1dfbb;
+}
+
+.alert-success .alert-link {
+  color: #0b2e13;
+}
+
+.alert-info {
+  color: #0c5460;
+  background-color: #d1ecf1;
+  border-color: #bee5eb;
+}
+
+.alert-info hr {
+  border-top-color: #abdde5;
+}
+
+.alert-info .alert-link {
+  color: #062c33;
+}
+
+.alert-warning {
+  color: #856404;
+  background-color: #fff3cd;
+  border-color: #ffeeba;
+}
+
+.alert-warning hr {
+  border-top-color: #ffe8a1;
+}
+
+.alert-warning .alert-link {
+  color: #533f03;
+}
+
+.alert-danger {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+
+.alert-danger hr {
+  border-top-color: #f1b0b7;
+}
+
+.alert-danger .alert-link {
+  color: #491217;
+}
+
+.alert-light {
+  color: #818182;
+  background-color: #fefefe;
+  border-color: #fdfdfe;
+}
+
+.alert-light hr {
+  border-top-color: #ececf6;
+}
+
+.alert-light .alert-link {
+  color: #686868;
+}
+
+.alert-dark {
+  color: #1b1e21;
+  background-color: #d6d8d9;
+  border-color: #c6c8ca;
+}
+
+.alert-dark hr {
+  border-top-color: #b9bbbe;
+}
+
+.alert-dark .alert-link {
+  color: #040505;
+}
+
+
+.symbol-password100 {
+  font-size: 15px;
+
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  border-radius: 25px;
+  top: 0;
+  right: -90%;
+  width: 100%;
+  height: 100%;
+  padding-right:  35px;
+  color: #666666;
+
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  transition: all 0.4s;
+}
+
+.input100:focus + .symbol-password100 {
+  color: #009970;
+  padding-right: 28px;
+}

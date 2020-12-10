@@ -1,0 +1,47 @@
+{
+    "private": true,
+    "scripts": {
+        "dev": "npm run development",
+        "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "watch": "npm run development -- --watch",
+        "watch-poll": "npm run watch -- --watch-poll",
+        "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --disable-host-check --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "prod": "npm run production",
+        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+    },
+    "devDependencies": {
+        "axios": "^0.19",
+        "bootstrap": "^4.0.0",
+        "cross-env": "^7.0",
+        "jquery": "^3.5.1",
+        "laravel-mix": "^5.0.1",
+        "lodash": "^4.17.19",
+        "popper.js": "^1.12",
+        "resolve-url-loader": "^3.1.0",
+        "sass": "^1.15.2",
+        "sass-loader": "^8.0.0",
+        "vue-template-compiler": "^2.6.12"
+    },
+    "dependencies": {
+        "@fortawesome/fontawesome-free": "^5.14.0",
+        "artyom.js": "^1.0.6",
+        "bootstrap": "^4.5.2",
+        "datatables.net-dt": "^1.10.22",
+        "file-upload-with-preview": "^4.1.0",
+        "isotope-layout": "^3.0.6",
+        "jquery": "^3.5.1",
+        "jquery-slimscroll": "^1.3.8",
+        "jquery-typeahead": "^2.11.1",
+        "jquery-ui": "^1.12.1",
+        "laravel-mix-postcss-config": "^1.0.4",
+        "lightbox2": "^2.11.3",
+        "moment": "^2.29.1",
+        "node-sass": "^4.14.1",
+        "owl.carousel": "^2.3.4",
+        "popper.js": "^1.16.1",
+        "rateyo": "^3.0.0-alpha.2",
+        "select2": "^4.0.13",
+        "talkify-tts": "^3.6.0",
+        "words-to-numbers": "^1.5.1"
+    }
+}

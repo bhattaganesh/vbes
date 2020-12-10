@@ -1,0 +1,14 @@
+/*@import "~bootstrap/dist/css/bootstrap.css";*/
+/*@import url('https://fonts.googleapis.com/css?family=Nunito');*/
+@import "../templates/front/Bethany/google-api.css";
+@import "~@fortawesome/fontawesome-free/css/all.css";
+@import "../templates/dashboard/AdminLTE/plugins/icheck-bootstrap/icheck-bootstrap.css";
+@import "../templates/dashboard/AdminLTE/dist/css/adminlte.css";
+@import "../templates/dashboard/AdminLTE/plugins/summernote/summernote-bs4.css";
+/*@import "../templates/dashboard/AdminLTE/plugins/daterangepicker/daterangepicker.css";*/
+@import "../plugins/jQuery.filer/css/jquery.filer.css";
+@import "../plugins/jQuery.filer/css/themes/jquery.filer-dragdropbox-theme.css";
+@import "../plugins/scorllbar/css/OverlayScrollbars.css";
+/*@import "../plugins/DataTables-1.10.22/css/jquery.dataTables.min.css";*/
+/*@import "~jquery-typeahead/dist/jquery.typeahead.min.css";*/
+
