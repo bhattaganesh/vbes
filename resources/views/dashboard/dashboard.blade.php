@@ -8,7 +8,7 @@
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">VBES</a></li>
                     <li class="breadcrumb-item active">Dashboard</li>
                 </ol>
             </div><!-- /.col -->
@@ -24,13 +24,12 @@
                     <div class="inner">
                         <h3>
                             @php
-                $mails = DB::table('inboxes')
-                     ->where('receiver_id',auth()->user()->email)
-                     ->count();
-                     echo $mails;
+                                $mails = DB::table('inboxes')
+                                 ->where('user_id',auth()->user()->id)
+                                 ->count();
+                                 echo $mails;
                             @endphp
                         </h3>
-
                         <p>Inbox</p>
                     </div>
                     <div class="icon">
@@ -47,7 +46,7 @@
                     <h3>
                         @php
                         $mails = DB::table('outboxes')
-                            ->where('sender_id',auth()->user()->email)
+                            ->where('user_id',auth()->user()->id)
                             ->count();
                         echo $mails;
                         @endphp
@@ -69,7 +68,7 @@
                     <h3>
                         @php
                         $mails = DB::table('drafts')
-                            ->where('sender_id',auth()->user()->email)
+                            ->where('user_id',auth()->user()->id)
                             ->count();
                         echo $mails;
                         @endphp
@@ -91,7 +90,7 @@
                     <h3>
                         @php
                         $mails = DB::table('trashes')
-                            ->where('user_name',auth()->user()->email)
+                            ->where('user_id',auth()->user()->id)
                             ->count();
                         echo $mails;
                         @endphp
@@ -106,6 +105,6 @@
                 </div>
             </div>
             <!-- ./col -->
-        </div>
         <!-- /.row -->
+        </div>
 @endsection

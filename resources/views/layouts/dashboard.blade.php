@@ -1,9 +1,10 @@
 @include('dashboard.partials.header')
+<body class="{{ $dashBodyClassName }}">
 <div class="wrapper">
 
 @include('dashboard.partials.top-bar')
-
 @include('dashboard.partials.sidebar')
+
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">

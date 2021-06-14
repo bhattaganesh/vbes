@@ -17,8 +17,15 @@
 @import "../templates/front/Bethany/Login_v1/css/main.css";
 @import "~rateyo/lib/cjs/rateyo.css";
 
-
-
+.turbolinks-progress-bar {
+    height: 6px;
+    background-color: #009970;
+    /* border-radius: 5px; */
+  }
+/* changing bg of log in navbar */
+#header .logo{
+  background : #fff;
+}
 .breadcrumbs {
   padding: 15px 0;
   background: #fff;
@@ -240,3 +247,75 @@
   color: #009970;
   padding-right: 28px;
 }
+
+/* body::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #F5F5F5;
+}
+
+body::-webkit-scrollbar
+{
+	width: 12px;
+	background-color: #F5F5F5;
+}
+body::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #555;
+} */
+
+
+/* body::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.6);
+	background-color: #CCCCCC;
+}
+
+body::-webkit-scrollbar
+{
+	width: 10px;
+	background-color: #F5F5F5;
+}
+
+body::-webkit-scrollbar-thumb
+{
+	background-color: #FFF;
+	background-image: -webkit-linear-gradient(90deg,
+        rgba(0, 0, 0, 1) 0%,
+        rgba(0, 0, 0, 1) 25%,
+        transparent 100%,
+        rgba(0, 0, 0, 1) 75%,
+        transparent)
+} */
+
+body::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #F5F5F5;
+	border-radius: 10px;
+}
+
+body::-webkit-scrollbar
+{
+	width: 10px;
+	background-color: #6c757d;
+}
+
+body::-webkit-scrollbar-thumb
+{
+	background-color: #009970;
+	border-radius: 10px;
+/* 	background-image: -webkit-linear-gradient(90deg,
+        rgba(0, 0, 0, .2) 25%,
+        transparent 25%,
+        transparent 50%,
+        rgba(0, 0, 0, .2) 50%,
+        rgba(0, 0, 0, .2) 75%,
+        transparent 75%,
+        transparent) */
+}
+
+

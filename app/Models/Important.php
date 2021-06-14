@@ -16,13 +16,13 @@ class Important extends Model
     }
 
     public function draft(){
-    	return $this->belongsTo('App\Models\draft','draft_id','id');
+    	return $this->belongsTo('App\Models\Draft','draft_id','id');
     }
     public function inbox(){
-    	return $this->belongsTo('App\Models\inbox','inbox_id','id');
+    	return $this->belongsTo('App\Models\Inbox','inbox_id','id');
     }
     public function outbox(){
-    	return $this->belongsTo('App\Models\outbox','outbox_id','id');
+    	return $this->belongsTo('App\Models\Outbox','outbox_id','id');
     }
 
 }

@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 class Mail extends Model
 {
     use HasFactory;
-    protected $fillable = ['subject','message','attachment','sender_id','receiver_id','draft'];
+    protected $fillable = ['subject','message','attachment','sender_id','receiver_id','isDraft'];
 
     public function getRules($draft='yes'){
         $rules =  [
@@ -21,7 +21,7 @@ class Mail extends Model
             'subject' => ['nullable','string'],
             'message' => ['required','string'],
             'attachment.*'=> ['sometimes','file','max:32000'],
-            'draft' => ['required','in:yes,no'],
+            'isDraft' => ['required','in:yes,no'],
         ];
         if($draft != 'yes'){
             $rules['receiver_id'] = ['required','exists:users,email','notIn:'.auth()->user()->email];
@@ -37,6 +37,7 @@ class Mail extends Model
              'notIn'      => ':attribute must be valid.',
         ];
     }
+
     public function attributes(){
         return [
             'receiver_id' => "Receiver email address"
@@ -75,7 +76,7 @@ class Mail extends Model
 
     function subjectCreate($subject,$message){
         if(!empty($subject)){
-            $subject = \Str::limit($subject,80,'...');
+            $subject = \Str::limit($subject,30,'...');
         }else{
             $subject = \Str::words($message,2,'...');
         }

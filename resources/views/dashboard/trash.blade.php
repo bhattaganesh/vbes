@@ -8,7 +8,7 @@
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">VBES</a></li>
           <li class="breadcrumb-item active">Trash</li>
         </ol>
       </div>
@@ -18,7 +18,7 @@
 @section('content')
       <div class="row">
         <div class="col-md-3">
-          
+
           @include('dashboard.partials.folder')
 
         </div>
@@ -92,11 +92,11 @@
                       <i class="fas fa-star text-{{ $record->isImp == 'yes' ? 'warning' : 'gray-dark' }}"></i></a>
                     </td>
                     <td class="mailbox-name">
-                      {{ ($record->isInbox == 'yes') ? $record->mail->sender_id ??  "*__ no-user-name __*" : $record->mail->receiver_id ?? "*__ no-user-name __*" }}
+                      {{ ($record->isInbox == 'yes') ? $record->mail->sender_id ??  "no user name" : $record->mail->receiver_id ?? "no user name" }}
                     </td>
                       <td class="mailbox-subject"><b>
                         @if($record->mail->subject != null)
-                        {{ Illuminate\Support\Str::limit($record->mail->subject,80,'...') }}
+                        {{ Illuminate\Support\Str::limit($record->mail->subject,30,'...') }}
                         @else
                         {!! Illuminate\Support\Str::words($record->mail->message,2,'...') !!}
                         @endif

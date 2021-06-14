@@ -1,9 +1,7 @@
-@extends('layouts.front')
+@extends('layouts.app')
 @section('main')
-    <section id="breadcrumbs" class="breadcrumbs">
-    </section><!-- End Breadcrumbs -->
-    <!-- ======= Team Section ======= -->
-    <section id="team" class="team">
+     <!-- ======= Team Section ======= -->
+     <section id="team" class="team">
       <div class="container">
 
         <div class="row">
@@ -15,13 +13,12 @@
           </div>
           <div class="col-lg-8">
             <div class="row">
-
               <div class="col-lg-6">
                 <div class="member" data-aos="zoom-in" data-aos-delay="100">
-                  <div class="pic"><img src="{{ asset('img/myProfile/myImage1.jpg') }}" class="img-fluid" alt=""></div>
+                  <div class="pic"><img src="{{ asset('img/myProfile/myImage1.jpg') }}" height = "40" class="img-fluid" alt=""></div>
                   <div class="member-info">
                     <h4>Ganesh Bhatta</h4>
-                    <span>Backend Developer</span>
+                    <span>Chief Executive Officer</span>
                     <p>Explicabo voluptatem mollitia et repellat qui dolorum quasi</p>
                     <div class="social">
                       <a href=""><i class="ri-twitter-fill"></i></a>
@@ -35,7 +32,7 @@
 
               <div class="col-lg-6 mt-4 mt-lg-0">
                 <div class="member" data-aos="zoom-in" data-aos-delay="200">
-                  <div class="pic"><img src="{{ asset('img/team/team-2.jpg') }}" class="img-fluid" alt=""></div>
+                  <div class="pic"><img src="{{ asset('img/myProfile/myImage1.jpg') }}" class="img-fluid" alt=""></div>
                   <div class="member-info">
                     <h4>Sarah Jhonson</h4>
                     <span>Product Manager</span>
@@ -52,9 +49,9 @@
 
               <div class="col-lg-6 mt-4">
                 <div class="member" data-aos="zoom-in" data-aos-delay="300">
-                  <div class="pic"><img src="{{ asset('img/team/team-3.jpg') }}" class="img-fluid" alt=""></div>
+                  <div class="pic"><img src="{{ asset('img/myProfile/myImage1.jpg') }}" class="img-fluid" alt=""></div>
                   <div class="member-info">
-                    <h4>William Anderson</h4>
+                    <h4>Ganesh Bhatta</h4>
                     <span>CTO</span>
                     <p>Quisquam facilis cum velit laborum corrupti fuga rerum quia</p>
                     <div class="social">
@@ -69,7 +66,7 @@
 
               <div class="col-lg-6 mt-4">
                 <div class="member" data-aos="zoom-in" data-aos-delay="400">
-                  <div class="pic"><img src="{{ asset('img/team/team-4.jpg') }}" class="img-fluid" alt=""></div>
+                  <div class="pic"><img src="{{ asset('img/myProfile/myImage1.jpg') }}" class="img-fluid" alt=""></div>
                   <div class="member-info">
                     <h4>Amanda Jepson</h4>
                     <span>Accountant</span>
@@ -83,9 +80,12 @@
                   </div>
                 </div>
               </div>
+
             </div>
+
           </div>
         </div>
+
       </div>
     </section><!-- End Team Section -->
 @endsection

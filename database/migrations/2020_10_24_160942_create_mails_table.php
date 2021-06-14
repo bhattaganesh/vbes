@@ -19,7 +19,7 @@ class CreateMailsTable extends Migration
             $table->longText('message');
             $table->string('sender_id');
             $table->string('receiver_id')->nullable();
-            $table->enum('draft',['yes','no']);
+            $table->enum('isDraft',['yes','no']);
             $table->timestamps();
         });
     }

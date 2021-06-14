@@ -29,7 +29,7 @@ class TrashController extends Controller
 
     public function index()
     {
-        $this->trash = $this->trash->where('user_name',auth()->user()->email)->orderBy('id','desc')->paginate(5);
+        $this->trash = $this->trash->where('user_id',auth()->user()->id)->orderBy('id','desc')->paginate(5);
         if($this->trash->count() > 0){
             $trash = $this->trash->items();
             $attachments = array();
@@ -44,26 +44,6 @@ class TrashController extends Controller
         ->with('data',$this->trash);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
     /**
      * Display the specified resource.
@@ -84,42 +64,9 @@ class TrashController extends Controller
         ->with('data',$this->trash);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
     public function deleteRecord(Request $request){
         if($request->del_record){
-            foreach ($request->del_record as $value) {
+            foreach (array_unique($request->del_record) as $value) {
                 $this->trash = $this->trash->findOrFail($value);
                 if($this->trash->mail->draft == 'yes'){
                     $this->mail = $this->mail->find($this->trash->mail_id);
@@ -131,7 +78,7 @@ class TrashController extends Controller
                 elseif($this->trash->isInbox == 'yes'){
                     $this->outbox = $this->outbox->where('mail_id',$this->trash->mail_id);
                     if($this->outbox->count() <= 0){
-                        $trash_outbox = $this->trash->where('mail_id',$this->trash->mail_id)->where('user_name','<>',auth()->user()->email);
+                        $trash_outbox = $this->trash->where('mail_id',$this->trash->mail_id)->where('user_id','<>',auth()->user()->id);
                         if($trash_outbox->count() <= 0){
                             $this->mail = $this->mail->find($this->trash->mail_id);
                             $attachments = $this->mail->attachments;
@@ -154,7 +101,7 @@ class TrashController extends Controller
                 }else{ // if it is in outbox side but if there is no this mail on another side (inbox as well as trash)
                     $this->inbox = $this->inbox->where('mail_id',$this->trash->mail_id);
                     if($this->inbox->count() <= 0){
-                        $trash_inbox = $this->trash->where('mail_id',$this->trash->mail_id)->where('user_name','<>',auth()->user()->email);
+                        $trash_inbox = $this->trash->where('mail_id',$this->trash->mail_id)->where('user_id','<>',auth()->user()->id);
                         if($trash_inbox->count() <= 0){
                             $this->mail = $this->mail->find($this->trash->mail_id);
                             $attachments = $this->mail->attachments;
@@ -261,7 +208,7 @@ class TrashController extends Controller
         if($this->trash->isImp == 'no'){
             $this->trash->isImp = 'yes';
             $data['trash_id'] = $request->id;
-            $data['user_name'] = $this->trash->user_name;
+            $data['user_name'] = $this->trash->userByTrash->email;
             $this->important->fill($data);
             $this->important->save();
             $status = $this->trash->save();

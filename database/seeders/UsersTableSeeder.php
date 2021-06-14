@@ -15,13 +15,27 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        $admin = array(
-            'name' => 'Ganesh Bhatta',
-            'email' => 'bhattaganesh05@gmail.com',
-            'password' => Hash::make('40028008')
-        );
-        if(User::where('email',$admin['email'])->count() <= 0){
-            User::create($admin);
+$admin = [
+                    [
+                        'name' => 'Ganesh Bhatta',
+                        'email' => 'bhattaganesh05@gmail.com',
+                        'password' => Hash::make('40028008'), //bcrypt
+                        'role' => 'admin',
+                        'status' => 'active'
+                    ],
+                    [
+                        'name' => 'GP Bhatta',
+                        'email' => 'gpbhatta01@gmail.com',
+                        'password' => bcrypt('40028008'), //bcrypt
+                        'role' => 'user',
+                        'status' => 'active'
+                    ]
+                ];
+        foreach ($admin as $user) {
+            if(User::where('email',$user['email'])->count() <= 0){
+                User::create($user);
+            }
         }
+
     }
 }

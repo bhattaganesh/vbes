@@ -47,6 +47,7 @@ class InboxNotification extends Notification
             'sender_id' => $this->mail->sender_id,
             'subject' => $this->mail->subject,
             'inbox_id' => $this->inbox_id,
+            'notification_for' => 'user',
         ];
     }
 }

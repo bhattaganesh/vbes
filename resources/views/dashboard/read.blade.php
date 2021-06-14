@@ -8,7 +8,7 @@
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">VBES</a></li>
               <li class="breadcrumb-item active">Read Mail</li>
             </ol>
           </div>
@@ -28,14 +28,14 @@
               <h3 class="card-title">Read Mail</h3>
 
               <div class="card-tools">
-                <a href="#" class="btn btn-tool" title="Previous"><i class="fas fa-chevron-left"></i></a>
-                <a href="#" class="btn btn-tool" title="Next"><i class="fas fa-chevron-right"></i></a>
+                {{--<a href="#" class="btn btn-tool" title="Previous"><i class="fas fa-chevron-left"></i></a>
+                <a href="#" class="btn btn-tool" title="Next"><i class="fas fa-chevron-right"></i></a>--}}
               </div>
             </div>
             <!-- /.card-header -->
             @if($data->count())
             <div class="card-body p-0">
-              <div class="mailbox-read-info">
+              <div class="mailbox-read-info mail-box-print-view">
                 <h5>{{$data->mail->subject}}</h5>
                 <h6>
                   <span class="from_to">{{$user_name}}</span>
@@ -50,21 +50,21 @@
                     <i class="far fa-trash-alt"></i>
                   </a>
                     {{Form::open(['url'=>
-                      $route = 
+                      $route =
                       (
-                        ($folder_name == 'outbox') ? 
-                       route('sent.delete',$data->id) : 
+                        ($folder_name == 'outbox') ?
+                       route('sent.delete',$data->id) :
                        (
-                        ($folder_name == 'inbox') ? 
-                        route('inbox.delete',$data->id) : 
+                        ($folder_name == 'inbox') ?
+                        route('inbox.delete',$data->id) :
                         (
-                          ($folder_name == 'draft') ? 
-                          route('draft.delete',$data->id) : 
+                          ($folder_name == 'draft') ?
+                          route('draft.delete',$data->id) :
                           (
-                            ($folder_name == 'trash') ? 
-                            route('trash.delete',$data->id) : 
+                            ($folder_name == 'trash') ?
+                            route('trash.delete',$data->id) :
                             (
-                              ($folder_name == 'important') ? 
+                              ($folder_name == 'important') ?
                               route('imp.delete',$record_id) : ''
                             )
                           )
@@ -76,21 +76,21 @@
                     @method('delete')
                     {{Form::close()}}
                     @php
-                $mail_type = 
+                $mail_type =
                       (
-                        ($folder_name == 'outbox') ? 
-                        'out'  : 
+                        ($folder_name == 'outbox') ?
+                        'out'  :
                        (
-                        ($folder_name == 'inbox') ? 
-                         'in' : 
+                        ($folder_name == 'inbox') ?
+                         'in' :
                         (
-                          ($folder_name == 'draft') ? 
-                           'out' : 
+                          ($folder_name == 'draft') ?
+                           'out' :
                           (
-                            ($folder_name == 'trash') ? 
-                            (($data->isInbox == 'yes') ? 'in' : 'out') : 
+                            ($folder_name == 'trash') ?
+                            (($data->isInbox == 'yes') ? 'in' : 'out') :
                             (
-                              ($folder_name == 'important') ? 
+                              ($folder_name == 'important') ?
                               $imp_type : ''
                             )
                           )
@@ -106,17 +106,17 @@
                   </a>
                 </div>
                 <!-- /.btn-group -->
-                <button type="button" class="btn btn-default btn-sm" title="Print">
+                <button type="button" onclick = "printContent('mail-box-print-view');" class="btn btn-default btn-sm" title="Print">
                   <i class="fas fa-print"></i>
                 </button>
               </div>
               <!-- /.mailbox-controls -->
-              <div class="mailbox-read-message"> {!! $data->mail->message !!}
+              <div class="mailbox-read-message mail-box-print-view"> {!! $data->mail->message !!}
               </div>
               <!-- /.mailbox-read-message -->
             </div>
             <!-- /.card-body -->
-            <div class="card-footer bg-white">
+            <div class="card-footer bg-white mail-box-print-view">
               <ul class="mailbox-attachments d-flex align-items-stretch clearfix">
                 @if(isset($attachments))
                   @if($attachments->count() > 0)
@@ -139,7 +139,7 @@
                             <span class="attachment_name">{{$file_name}}</span></a>
                               <span class="mailbox-attachment-size clearfix mt-1">
                                 <span> {{ $size }}  KB</span>
-                                <a href="{{route('download-attach',['dir' => $dir,'file_name' => $file_name])}}" class="btn btn-default btn-sm float-right"><i class="fas fa-cloud-download-alt"></i></a>
+                                <a href="{{route('download-attach',['dir' => $dir,'file_name' => $file_name])}}" class="btn btn-default btn-sm float-right" title="download"><i class="fas fa-cloud-download-alt"></i></a>
                               </span>
                         </div>
                       </li>
@@ -159,7 +159,7 @@
               <a href="javascript:;" title="Delete" class="btn btn-default btn-sm btn-read-delete">
                 <i class="far fa-trash-alt"></i>
               </a>
-              <button type="button" class="btn btn-default"><i class="fas fa-print"></i> Print</button>
+              <button type="button" onclick = "printContent('mail-box-print-view');" class="btn btn-default"><i class="fas fa-print"></i> Print</button>
             </div>
             @endif
             <!-- /.card-footer -->
@@ -203,10 +203,22 @@ var function2Completed = false;
   }*/
 
   function function1(){
+    var subject = $('.mailbox-read-info').find('h5').text();
+    if(subject != ''){
+      subject = 'not mentioned.'
+    }else{
+      subject += '.';
+    }
+    var respect = $('.mailbox-read-info').find('.from_to').text();
+    respect = respect.split(":");
+    if(respect[0] == 'To'){
+      respect = "mail sent to. "+respect[1];
+    }else{
+      respect = "mail sent by. "+respect[1];
+    }
     var txt = 'Hello {{ auth()->user()->name }}, i am going to read this mail, listen carefully.';
-    txt += " Subject is "+$('.mailbox-read-info').find('h5').text();
-    txt += ". For respected user.";
-    txt += $('.mailbox-read-info').find('.from_to').text();
+    txt += " Subject is "+subject;
+    txt += respect;
     txt += ".Date time is.";
     txt += $('.mailbox-read-info').find(".at_date_time").text();
     txt += ".Message is.";
@@ -226,7 +238,7 @@ var something = (function() {
         }
     };
 })();
-something(); 
+something();
 
 if (annyang) {
   var commands = {
@@ -244,10 +256,22 @@ if (annyang) {
 @section('scripts')
 <script>
   function function1(){
-    var txt = 'Hello {{ auth()->user()->name }}, i am going to read this mail, listen carefully';
-    txt += " Subject is "+$('.mailbox-read-info').find('h5').text();
-    txt += ". For respected user.";
-    txt += $('.mailbox-read-info').find('.from_to').text();
+    var subject = $('.mailbox-read-info').find('h5').text();
+    if(subject != ''){
+      subject = 'not mentioned.'
+    }else{
+      subject += '.';
+    }
+    var respect = $('.mailbox-read-info').find('.from_to').text();
+    respect = respect.split(":");
+    if(respect[0] == 'To'){
+      respect = "mail sent to. "+respect[1];
+    }else{
+      respect = "mail sent by. "+respect[1];
+    }
+    var txt = 'Hello {{ auth()->user()->name }}, i am going to read this mail, listen carefully.';
+    txt += " Subject is "+subject;
+    txt += respect;
     txt += ".Date time is ";
     txt += $('.mailbox-read-info').find(".at_date_time").text();
     txt += ".Message is ";

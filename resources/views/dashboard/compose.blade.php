@@ -8,7 +8,7 @@
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">VBES</a></li>
                 <li class="breadcrumb-item active">Compose</li>
             </ol>
         </div>
@@ -80,31 +80,92 @@
 @endsection
 @section('scripts')
 <script>
-// document.getElementById('compose-textarea').value = "asklfjasldfkjdalfdjaslfkjk";
-
 if (annyang) {
-  // Let's define our first command. First the text we expect, and then the function it should call
   var commands = {
     'write email *tag': function(variable) {
       let get_elem = document.getElementById('to');
       get_elem.value = variable.split(" ").join("");
     },
+    'write user name *tag': function(variable) {
+      let get_elem = document.getElementById('to');
+      get_elem.value = variable.split(" ").join("");
+    },
+    'write receiver\'s email address *tag': function(variable) {
+      let get_elem = document.getElementById('to');
+      get_elem.value = variable.split(" ").join("");
+    },
     'write subject *tag': function(variable) {
-        // $('#subject').val(variable);
       let get_elem = document.getElementById('subject');
       get_elem.value = variable;
     },
-    'write message *tag': function(variable) {
-      let get_elem = $('#compose-textarea');
-      get_elem.summernote('code',variable);
+    'write message': function() {
+        play("Now you can say your message");
+      annyang.addCallback('result', function(phrases) {
+        if((phrases[0] == "let's finish my message")|| (phrases[0] == "finish my message") || (phrases[0] == "finish") || (phrases[0] == "save my message") || (phrases[0] == "save message") || (phrases[0] == "finish message")){
+            play("you finished your message");
+            annyang.removeCallback("result");
+            $('#compose-textarea').trigger("focusout");
+            $('#compose-textarea').summernote('enable');
+        }else{
+            let get_elem = $('#compose-textarea');
+            get_elem.summernote('disable');
+            console.log(phrases[0]);
+            let phrase = phrases[0]+". ";
+            console.log(phrase);
+            get_elem.summernote('insertText',phrase);
+        }
+      });
     },
     'continue message *tag': function(variable) {
       let get_elem = $('#compose-textarea');
       get_elem.summernote('insertText'," "+variable);
     },
+    'continue subject *tag': function(variable) {
+      document.getElementById('subject').value += " "+variable;
+    },
     'reset message': function() {
       let get_elem = $('#compose-textarea');
       get_elem.summernote('code','');
+    },
+    'reset subject': function() {
+      let get_elem = $('#subject');
+      get_elem.val("");
+    },
+    'reset email address': function() {
+      let get_elem = $('#to');
+      get_elem.val("");
+    },
+    'reset mail address': function() {
+      let get_elem = $('#to');
+      get_elem.val("");
+    },
+    'reset receiver\'s email address': function() {
+      let get_elem = $('#to');
+      get_elem.val("");
+    },
+    'reset user name': function() {
+      let get_elem = $('#to');
+      get_elem.val("");
+    },
+    'read message': function() {
+      let get_elem = $('#compose-textarea');
+      play(get_elem.val());
+    },
+    'read subject': function() {
+      let get_elem = document.getElementById('subject');
+      play(get_elem.value);
+    },
+    'read mail address': function() {
+      let get_elem = document.getElementById('to');
+      play(get_elem.value);
+    },
+    'read email address': function() {
+      let get_elem = document.getElementById('to');
+      play(get_elem.value);
+    },
+    'read receiver\'s email address': function() {
+      let get_elem = document.getElementById('to');
+      play(get_elem.value);
     },
     'save as draft': function() {
       let get_elem = $('#draft');
@@ -114,75 +175,22 @@ if (annyang) {
       let get_elem = $('#submit_email');
       get_elem.click();
     },
+    'send mail': function(variable) {
+      let get_elem = $('#submit_email');
+      get_elem.click();
+    },
+    'send form': function(variable) {
+      let get_elem = $('#submit_email');
+      get_elem.click();
+    },
+    'submit form': function(variable) {
+      let get_elem = $('#submit_email');
+      get_elem.click();
+    },
+
   };
-
-  // Add our commands to annyang
   annyang.addCommands(commands);
-
-  // Start listening. You can call this here, or attach this call to an event, button, etc.
   annyang.start();
 }
-/*
-    "use strict";
-    
-    $(document).ready(function() {
-
-        var isRecording = false;                        // create var to track recording state          
-
-        // first we make sure annyang started succesfully
-        if (annyang) {          
-
-            // function to speak a response
-            var speakText = function(response) {
-                
-                // setup synthesis
-                var msg = new SpeechSynthesisUtterance();
-                var voices = window.speechSynthesis.getVoices();
-                msg.voice = voices[2];                  // Note: some voices don't support altering params
-                msg.voiceURI = 'native';
-                msg.volume = 1;                         // 0 to 1
-                msg.rate = 1;                           // 0.1 to 10
-                msg.pitch = 2;                          // 0 to 2
-                msg.text = response;
-                msg.lang = 'en-US';
-                
-                speechSynthesis.speak(msg);
-            }
-            
-
-            annyang.debug();                                // turn on debugging (console messages)
-
-            // Add voice commands to respond to
-            annyang.addCommands(commands);
-
-        } else {
-            $("#status").text('Sorry, browser not supported.');
-        }
-    });
-*/
-/*$(function () {
-  try {
-    var recognition = new webkitSpeechRecognition();
-  } catch (e) {
-    var recognition = Object;
-  }
-  recognition.continuous = true;
-  recognition.interimResults = true;
-  recognition.onresult = function (event) {
-    var txtRec = '';
-    for (var i = event.resultIndex; i < event.results.length; ++i) {
-      txtRec += event.results[i][0].transcript;
-    }
-    $('#compose-textarea').val(txtRec);
-  };
-  $('#startRecognition').click(function () {
-    $('#compose-textarea').focus();
-    recognition.start();
-  });
-  $('#stopRecognition').click(function () {
-    recognition.stop();
-  });
-});
-*/
 </script>
 @endsection

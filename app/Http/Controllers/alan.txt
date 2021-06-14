@@ -1,0 +1,84 @@
+intent(`(hi|hello|hey).*`, reply(`Hii!. how can i help you? `));
+intent(`Who are you?`, reply(`I'm Alan, your virtual voice assistant`));
+intent(`what is vbes?`, reply(`VBES means Voice Based Email System by using which you can send/receive
+messages using voice commands.`));
+intent(`(how to | how do i) login(signin | sign in)`, reply(`In login, you  have to fill your 
+login credentials to form field (email or username and password field).
+You can fill email field by using command 'write email "email address value"'.
+You can fill password field by using command 'write password "password value"'.
+You can also check or uncheck "remember me" checkbox by using "check or uncheck remember me" command`));
+
+intent(`(how to | how do i) create new account(create account | sign up | signup | register)`, reply(`For creating new account 
+you must have fill register form which contains name field, email field, password field and confirm password field.
+you can fill each field using write command.
+general syntax for write commands is write field name field value.`));
+
+intent(`(how to | how do i) navigat.* `, reply(`For navigating pages you can use go to page name command
+or go page name command.`));
+
+intent(`(how to | how do i) go back.*`, reply(`For going to previous page you can use go to back command 
+or go back command.`));
+
+intent(`(how to know | how do i know ) where am i (in which page i am).*`, reply(`where am i command will tell you in 
+which page you are.`));
+
+intent(`(how to know | how do i know ) what time it is (current time).*`, reply(`what time it is command will tell 
+you current time.`));
+
+intent(`(send | compose) mail(email).* `, reply(`For composing mail, you have to fill
+receiver\'s email address field subject field and message field.
+You can fill each field using write command.
+general syntax for write command is write field name field value.
+And then say send mail(or email) command.`));
+
+intent(`(how to  | how do i  ) send form .*`, reply(`For sending form, you can use send form command or submit form command or send form name command .`));
+intent(`(how to  | how do i  ) logout .*`, reply(`For logout, you can 
+use logout command or logout me command.`));
+
+intent(`(how to  | how do i  ) read(delete) mail(email).*`, reply(`Each folder contains at most 5 mails 
+per paginate.So we can say first mail, second mail , third mail upto fifth.For
+deleting mail ,delete first mail command can be used.
+For reading mail ,read first mail command can be used.
+Here folder means inbox, outbox or sent, trash, draft and important.`));
+
+intent(`(how to  | how do i  ) paginate .*`, reply(`For paginating, you can use simply 
+'paginate  next or paginate  back' command .`));
+intent(`(please) help .*`, reply(`Sure, i can help you in different ways like logging in process, 
+creating new account process
+, logging out process, reading or deleting mail process, navigating to another page process, composing mail or
+sending mail process  and many other process.`));
+
+intent(`(go | go to) back`, (p) => {
+    p.play(`Sure, going back`);
+    p.play({command: 'goBack'});
+});
+
+intent(`go (to) $(PAGE* (.*)) (page)`, p => {
+    p.play(`Sure, going to ${p.PAGE} page`);
+    p.play({command: 'goToPage',page : p.PAGE.value });
+    
+});
+
+// //feedback
+// intent("I want to give feedback", async p => {
+//     p.play("Thank you! What do you think about our product?");
+//     const feedback = await p.then(userInput);
+//     p.play({command: "feedback", value: feedback});
+//     p.play(`Your feedback is: ${feedback}`);
+// });
+// 
+// const userInput = context(() => {
+//     intent("$(I* .+)", p => p.resolve(p.I));
+// });
+// //login process
+// intent("I want to login(in my account|into account)", async p => {
+//     p.play("Are you ready to fill the login form?");
+//     await p.then(iAmReady);
+//     p.play("What is user name?");
+//     const email = await p.then(userInput);
+//     p.play("your email address is"+email);
+// });
+// 
+// const iAmReady = context(() => {
+//     intent("$(SURE yes|i am ready|sure|of course|i am ready to fill form)", p => p.resolve(p.SURE));
+// })

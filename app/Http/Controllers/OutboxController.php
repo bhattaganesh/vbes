@@ -20,7 +20,7 @@ class OutboxController extends Controller
     protected $inbox;
     protected $outbox;
     protected $trash;
-    
+
     public function __construct(Mail $mail,Inbox $inbox,Outbox $outbox,Trash $trash,Important $important)
     {
         $this->mail = $mail;
@@ -32,7 +32,7 @@ class OutboxController extends Controller
 
     public function index()
     {
-        $this->outbox = $this->outbox->where('sender_id',auth()->user()->email)->orderBy('id','desc')->paginate(5);
+        $this->outbox = $this->outbox->where('user_id',auth()->user()->id)->orderBy('id','desc')->paginate(5);
             if($this->outbox->count() > 0){
             $outbox = $this->outbox->items();
             $attachments = array();
@@ -122,15 +122,17 @@ class OutboxController extends Controller
     }
 
     public function deleteRecord(Request $request){
+        // dd($request);
         if($request->del_record){
-            foreach ($request->del_record as $value) {
+            foreach (array_unique($request->del_record) as $value) {
                 $this->outbox = $this->outbox->findOrFail($value);
                 $record = $this->outbox;
                 $status = $this->outbox->delete();
                 if($status){
                     $this->trash = new Trash();
                     $data['mail_id'] = $record->mail_id;
-                    $data['user_name'] = $record->sender_id;
+                    // $data['user_name'] = $record->sender_id;
+                    $data['user_id'] = auth()->user()->id;
                     $data['isInbox'] = 'no';
                     $this->trash->fill($data);
                     $this->trash->save();
@@ -149,7 +151,8 @@ class OutboxController extends Controller
             if($status){
                 $this->trash = new Trash();
                 $data['mail_id'] = $record->mail_id;
-                $data['user_name'] = $record->sender_id;
+                // $data['user_name'] = $record->sender_id;
+                $data['user_id'] = auth()->user()->id;
                 $data['isInbox'] = 'no';
                 $this->trash->fill($data);
                 $this->trash->save();
@@ -170,7 +173,7 @@ class OutboxController extends Controller
         if($this->outbox->isImp == 'no'){
             $this->outbox->isImp = 'yes';
             $data['outbox_id'] = $request->id;
-            $data['user_name'] = $this->outbox->sender_id;
+            $data['user_name'] = $this->outbox->userByOutbox->email;
             $this->important->fill($data);
             $this->important->save();
             $status = $this->outbox->save();

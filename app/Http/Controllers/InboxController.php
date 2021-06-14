@@ -33,7 +33,7 @@ class InboxController extends Controller
 
     public function index()
     {
-        $this->inbox = $this->inbox->where('receiver_id',auth()->user()->email)->orderBy('id','desc')->paginate(5);
+        $this->inbox = $this->inbox->where('user_id',auth()->user()->id)->orderBy('id','desc')->paginate(5);
         if($this->inbox->count() > 0){
             $inbox = $this->inbox->items();
             $attachments = array();
@@ -41,32 +41,11 @@ class InboxController extends Controller
                 $this->mail = $this->mail->find($value->mail_id);
                 $attachment = $this->mail->attachments;
                 $attachments [] = $attachment;
-            }  
+            }
         }
         return view('dashboard.inbox')
         ->with('attachments',$attachments ?? '')
         ->with('data',$this->inbox);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
     }
 
     /**
@@ -94,7 +73,7 @@ class InboxController extends Controller
         $this->mail = $this->mail->find($this->inbox->mail_id);
         $attachments = $this->mail->attachments;
         $user_name = "From: ".$this->inbox->mail->sender_id;
-        $notification = auth()->user()->notifications()->where('data->inbox_id',$id)->first();
+        $notification = auth()->user()->notifications()->where('data->notification_for','user')->where('data->inbox_id',$id)->first();
         if($notification) {
             $notification->markAsRead();
         }
@@ -106,65 +85,40 @@ class InboxController extends Controller
 
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+/* deleting draft_record(s)  and saving it into trashes table*/
 
     public function deleteRecord(Request $request){
-        if($request->del_record){
-            foreach ($request->del_record as $value) {
+        if($request->del_record){//for deleting multiple records
+            foreach (array_unique($request->del_record) as $value) {
                 $this->inbox = $this->inbox->findOrFail($value);
                 $record = $this->inbox;
                 $status = $this->inbox->delete();
                 $status = true;
                 $this->trash = new Trash();
                 $data['mail_id'] = $record->mail_id;
-                $data['user_name'] = $record->receiver_id;
+                // $data['user_name'] = $record->receiver_id;
+                $data['user_id'] = $record->user_id;
                 $data['isInbox'] = 'yes';
                 $this->trash->fill($data);
                 $this->trash->save();
+                $notification = auth()->user()->notifications()
+                ->where('data->notification_for','user')
+                ->where('data->inbox_id',$value)->first();
+                if($notification) {
+                    $notification->delete();
+                }
             }
             if($status){
-                $notification = auth()->user()->notifications()->where('data->inbox_id',$value)->first();
+                /* $notification = auth()->user()->notifications()->where('data->inbox_id',$value)->first();
                     if($notification) {
                         $notification->delete();
-                    }
+                    } */
                     request()->session()->flash('success','Mail deleted successfully.');
             }else{
                 request()->session()->flash('error','Sorry!, error while deleting email.');
             }
             return  redirect()->back();
-        }elseif($request->id){
+        }elseif($request->id){ // for deleting single record
             $this->inbox = $this->inbox->findOrFail($request->id);
             $record = $this->inbox;
             $status = $this->inbox->delete();
@@ -175,7 +129,8 @@ class InboxController extends Controller
                     }
                 $this->trash = new Trash();
                 $data['mail_id'] = $record->mail_id;
-                $data['user_name'] = $record->receiver_id;
+                // $data['user_name'] = $record->receiver_id;
+                $data['user_id'] = $record->user_id;
                 $data['isInbox'] = 'yes';
                 $this->trash->fill($data);
                 $this->trash->save();
@@ -191,16 +146,16 @@ class InboxController extends Controller
         }
     }
 
+    /* for making draft_record as important label */
+
     public function makeItImp(Request $request){
-        // dd("fakldfjaldsfasd");
         $this->inbox = $this->inbox->findOrFail($request->id);
-        // dd($this->inbox);
-        if($this->inbox->isImp == 'no'){
-            $this->inbox->isImp = 'yes';
+        if($this->inbox->isImp == 'no'){ // if record is not important
+            $this->inbox->isImp = 'yes'; // make it important
             $data['inbox_id'] = $request->id;
             $data['user_name'] = $this->inbox->receiver_id;
             $this->important->fill($data);
-            $this->important->save();
+            $this->important->save();// saving into important table
             $status = $this->inbox->save();
             if($status){
 /*            return response()->json([
@@ -217,7 +172,7 @@ class InboxController extends Controller
                 'data' => null
             ]);*/
             }
-        }else{
+        }else{ // if record is important
             $this->inbox->isImp = 'no';
             $this->important = $this->important->where('inbox_id',$request->id);
             if($this->important){
@@ -256,7 +211,7 @@ class InboxController extends Controller
                 "status" => false,
                 "message" =>"No user found!"
             ]);
-        } 
+        }
     }*/
 
 }

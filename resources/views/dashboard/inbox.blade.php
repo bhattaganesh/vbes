@@ -8,7 +8,7 @@
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">VBES</a></li>
           <li class="breadcrumb-item active">Inbox</li>
         </ol>
       </div>
@@ -62,17 +62,17 @@
                 </button>
                 <div class="float-right">
 
-                                      {{ $data->links() }}
+                    {{ $data->links() }}
                   </div>
                   <!-- /.btn-group -->
                 </div>
                 <!-- /.float-right -->
               </div>
               <div class="table-responsive mailbox-messages">
-                <table class="table table-hover table-striped">
+                <table class="table table-hover table-striped data-table">
                   <tbody>
-{{Form::open(['url' => route('inbox.delete'),'class' => 'delete-record-form'])}}
-@php $view_click_id = 0; @endphp
+            {{Form::open(['url' => route('inbox.delete'),'class' => 'delete-record-form'])}}
+                  @php $view_click_id = 0; @endphp
                   @foreach($data as $key => $record)
                   @php $view_click_id++; @endphp
                   <tr>
@@ -83,32 +83,41 @@
                       </div>
                     </td>
                     <td class="mailbox-sta"><a href="{{ route('inbox.imp',$record->id) }}"
-                    data-imp_make_id = "{{$view_click_id}}" title = "{{ $record->isImp == 'yes' ? 'Remove from important' : 'Add to important' }}" data-id = {{$record->id}} >
+                     data-imp_make_id = "{{$view_click_id}}" title = "{{ $record->isImp == 'yes' ? 'Remove from important' : 'Add to important' }}" data-id = {{$record->id}} >
                       <i class="fas fa-star text-{{ $record->isImp == 'yes' ? 'warning' : 'gray-dark' }}"></i></a>
                     </td>
-                    <td class="mailbox-name">{{ $record->mail->sender_id }}
-                    </td>
+                    <td class="mailbox-name">{{ $record->mail->sender_id }}</td>
                       <td class="mailbox-subject"><b>
                         @if($record->mail->subject != null)
-                        {{ Illuminate\Support\Str::limit($record->mail->subject,80,'...') }}
+                        {{ Illuminate\Support\Str::limit($record->mail->subject,30,'...') }}
                         @else
                         {!! Illuminate\Support\Str::words($record->mail->message,2,'...') !!}
                         @endif
                       </b>
                       </td>
-                      <td class="mailbox-attachment">                        
+                      <td class="mailbox-attachment">
                         @if(count($attachments[$key]) > 0)
                         <i class="fas fa-paperclip"></i>
                         @endif
                       </td>
                       <td>
-                        <a href="{{route('inbox.show',$record->id)}}" data-view_click_id = "{{$view_click_id}}" title = "Read Mail">
-                        <i class="fas fa-eye"></i></a>
+                        @foreach(auth()->user()->unReadNotifications()->where('data->notification_for','user')->get() as $key => $notification)
+                            @if($notification->data['inbox_id'] == $record->id)
+                            <a href="{{route('inbox.show',$record->id)}}" data-view_click_id = "{{$view_click_id}}" title = "Read Mail">
+                              <i class="fas fa-eye text-danger"></i>
+                            </a>
+                            @endif
+                            @if($notification->data['inbox_id'] != $record->id)
+                            <a href="{{route('inbox.show',$record->id)}}" data-view_click_id = "{{$view_click_id}}" title = "Mail have been read already">
+                              <i class="fas fa-eye"></i>
+                            </a>
+                            @endif
+                        @endforeach
                       </td>
                     <td class="mailbox-date">{{$record->mail->created_at->diffForHumans()}}</td>
                   </tr>
                   @endforeach
-{{Form::close()}}
+            {{Form::close()}}
 
                   </tbody>
                 </table>

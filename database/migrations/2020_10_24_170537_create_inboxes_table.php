@@ -16,7 +16,9 @@ class CreateInboxesTable extends Migration
         Schema::create('inboxes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('mail_id')->constrained('mails','id')->onDelete('CASCADE')->onUpdate('CASCADE');
-            $table->string('receiver_id');
+            $table->foreignId('user_id')->constrained('users','id')->onDelete('CASCADE')->onUpdate('CASCADE');
+            $table->enum('isImp',['yes','no'])->default('no');
+            // $table->string('receiver_id');
             $table->timestamps();
         });
     }

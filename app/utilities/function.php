@@ -29,7 +29,7 @@ function deleteAttachment($file){
         unlink($file);
 	}
 }
- 
+
 function deleteDirectory($dir){
 	$dir = public_path()."/attachments/".$dir;
 	if(File::exists($dir)){
@@ -138,7 +138,7 @@ function myCustomFunction($pwd){
         //for replacing like 'hash'  with '#'
         $expost=explode(" ", $pwd);
         // $expost = ['hash','captal','g','g40028008'];
-        for ($i=0; $i<count($special_chars); $i++) { 
+        for ($i=0; $i<count($special_chars); $i++) {
             $specpos=array_search(strtolower($special_chars[$i]), $expost);
             if($specpos!==false){
                 $pos[]=$specpos;// position of special chars(like hash) in $expost array
@@ -146,11 +146,11 @@ function myCustomFunction($pwd){
             }
         }
         if(!empty($pos)){
-            for ($i=0; $i <count($pos) ; $i++) { 
+            for ($i=0; $i <count($pos) ; $i++) {
             $aim[]=$expost[$pos[$i]]; // $aim = $expost[0]
             // $aim = ['hash'];
             }
-            for ($i=0; $i < count($aim); $i++) { 
+            for ($i=0; $i < count($aim); $i++) {
                 $f=array_search(ucwords(strtolower($aim[$i])), $special_chars);
                 if($f!==false){
                     $find []=$f;//position of special chars(like hash) in $expost array
@@ -158,22 +158,22 @@ function myCustomFunction($pwd){
              }
         }
         if(!empty($find)){
-            for ($i=0; $i <count($find) ; $i++) { 
+            for ($i=0; $i <count($find) ; $i++) {
                 $pwd=str_replace(strtolower($special_chars[$find[$i]]), $spec[$find[$i]], $pwd);// replacing special_chars with spec in pwd
             }
         }
 
         // for repacing like 'capital g' with 'G'
-        for ($i=0; $i <count($expost); $i++) { 
+        for ($i=0; $i <count($expost); $i++) {
             if($expost[$i]==='capital'){
                 $ca []=$i;
             }
         }
-        for ($i=0; $i < count($ca); $i++) { 
+        for ($i=0; $i < count($ca); $i++) {
             $aim2[]=$expost[$ca[$i]]." ".$expost[$ca[$i]+1];
             //for storing like $aim2 = ['captial g']
         }
-        for ($i=0; $i <count($aim2) ; $i++) { 
+        for ($i=0; $i <count($aim2) ; $i++) {
             $fin=array_search($aim2[$i], $capitals);
             // searching $aim3 in  capitals
             if($fin!==false){
@@ -181,7 +181,7 @@ function myCustomFunction($pwd){
             }
         }
         if(!empty($finalpos)){
-            for ($i=0; $i < count($finalpos); $i++) { 
+            for ($i=0; $i < count($finalpos); $i++) {
                 $pwd=str_replace($capitals[$finalpos[$i]], $real[$finalpos[$i]], $pwd);
                 // replacing  capitals  with  real in pwd
             }
@@ -204,7 +204,23 @@ function nameMaker($name){
 function readLoud($txt){
   $txt=htmlspecialchars($txt);
   $txt=rawurlencode($txt);
-  $html=file_get_contents('https://translate.google.com/translate_tts?ie=UTF-8&client=gtx&q='.$txt.'&tl=en-np');
+  $html = "";
+  if(is_connected()){
+    $html=file_get_contents('https://translate.google.com/translate_tts?ie=UTF-8&client=gtx&q='.$txt.'&tl=en-np');
+  }
   $player="<audio controls='controls' autoplay hidden ><source src='data:audio/mpeg;base64,".base64_encode($html)."'></audio>";
   return $player;
+
 }
+function is_connected()
+{
+    $connected = @fopen("http://www.google.com:80/","r");;
+    if ($connected){
+        $is_conn = true; //action when connected
+        fclose($connected);
+    }else{
+        $is_conn = false; //action in connection failure
+    }
+    return $is_conn;
+}
+

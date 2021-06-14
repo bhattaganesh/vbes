@@ -49,9 +49,9 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        $data['email'] = str_replace(' ','',$data['email']); 
-        $data['password'] = myCustomFunction($data['password']); 
-        $data['password_confirmation'] = myCustomFunction($data['password_confirmation']); 
+        $data['email'] = str_replace(' ','',$data['email']);
+        $data['password'] = myCustomFunction($data['password']);
+        $data['password_confirmation'] = myCustomFunction($data['password_confirmation']);
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
@@ -69,12 +69,15 @@ class RegisterController extends Controller
     {
         // hash capital g g 17 68 3672
         $data['name'] = nameMaker($data['name']);
-        $data['email'] = str_replace(' ','',$data['email']); 
+        $data['email'] = str_replace(' ','',$data['email']);
         $data['password'] = myCustomFunction($data['password']);
+        request()->session()->flash('success','You are welcome '.$data['name'].' 😊');
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'role' => 'user',
+            'status' => 'active',
         ]);
     }
 }

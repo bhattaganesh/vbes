@@ -8,7 +8,7 @@
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">VBES</a></li>
           <li class="breadcrumb-item active">Draft</li>
         </ol>
       </div>
@@ -20,11 +20,11 @@
         <div class="col-md-3">
 
           @include('dashboard.partials.folder')
-          
+
         </div>
         <!-- /.col -->
         <div class="col-md-9">
-          <div class="card card-primary card-outline">
+          <div class="card card-primary card-outline" id = "ajaxPagi">
           @if($data->count())
             <div class="card-header">
               <h3 class="card-title table-name">Draft</h3>
@@ -72,10 +72,10 @@
               <div class="table-responsive mailbox-messages">
                 <table class="table table-hover table-striped">
                   <tbody>
-{{Form::open(['url' => route('draft.delete'),'class' => 'delete-record-form'])}}
-@php $view_click_id = 0; @endphp
-                  @foreach($data as $record)
-                  @php $view_click_id++; @endphp
+                    {{Form::open(['url' => route('draft.delete'),'class' => 'delete-record-form'])}}
+                    @php $view_click_id = 0; @endphp
+                    @foreach($data as $record)
+                    @php $view_click_id++; @endphp
                   <tr>
                     <td>
                       <div class="icheck-primary">
@@ -86,12 +86,12 @@
                     <td class="mailbox"><a href="{{ route('draft.imp',$record->id) }}" title = "{{ $record->isImp == 'yes' ? 'Remove from important' : 'Add to important' }}" data-imp_make_id = "{{$view_click_id}}">
                       <i class="fas fa-star text-{{ $record->isImp == 'yes' ? 'warning' : 'gray-dark' }}"></i></a>
                     </td>
-                    <td class="mailbox-name">{{ $record->mail->receiver_id ?? "*__ no-user-name __*" }}</a>
+                    <td class="mailbox-name">{{ $record->mail->receiver_id ?? "no user name" }}</a>
                     </td>
                       <td class="mailbox-subject">
                       <b>
                         @if($record->mail->subject != null)
-                        {{ Illuminate\Support\Str::limit($record->mail->subject,80,'...') }}
+                        {{ Illuminate\Support\Str::limit($record->mail->subject,30,'...') }}
                         @else
                         {!! Illuminate\Support\Str::words($record->mail->message,2,'...') !!}
                         @endif
@@ -156,4 +156,10 @@
         </div>
         <!-- /.col -->
       </div>
+@endsection
+
+@section('scripts')
+<script>
+//
+</script>
 @endsection

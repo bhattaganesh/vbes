@@ -1,5 +1,8 @@
 /node_modules
 /public/hot
+/public/doc
+/public/blog_asset
+/public/uploads
 /public/attachments
 /public/storage
 /storage/*.key

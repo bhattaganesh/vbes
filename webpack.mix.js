@@ -26,3 +26,5 @@ mix.js('resources/js/app.js', 'public/js')
     // .copyDirectory('resources/templates/dashboard/AdminLTE/dist/img','public/img')
     // .copyDirectory('resources/templates/front/Bethany/assets/img','public/img')
     .version();
+    // mix.js('resources/js/turbo.js', 'public/js');
+    // mix.js('resources/js/emoji.js', 'public/js');

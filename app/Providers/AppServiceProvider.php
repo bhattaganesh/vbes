@@ -25,5 +25,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Paginator::useBootstrap();
+        view()->composer('*', function ($view) {
+            view()->share('dashBodyClassName', 'hold-transition sidebar-mini layout-navbar-fixed layout-fixed');
+        });
     }
 }

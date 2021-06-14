@@ -16,7 +16,10 @@ class CreateTrashesTable extends Migration
         Schema::create('trashes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('mail_id')->constrained('mails','id')->onDelete('CASCADE')->onUpdate('CASCADE');
-            $table->string('user_name');
+            // $table->string('user_name');
+            $table->foreignId('user_id')->constrained('users','id')->onDelete('CASCADE')->onUpdate('CASCADE');
+            $table->enum('isInbox',['yes','no']);
+            $table->enum('isImp',['yes','no'])->default('no');
             $table->timestamps();
         });
     }

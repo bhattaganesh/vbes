@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Validator;
-
 class FrontController extends Controller
 {
     public function index(){
@@ -22,6 +21,27 @@ class FrontController extends Controller
     }
     public function contact(){
     	return view('front.contact');
+    }
+    public function faq(){
+    	return view('front.faq');
+    }
+    public function voiceChatbot(){
+    	return view('front.voiceChatbot');
+    }
+    public function chatbot(){
+        return view('front.chatbot');
+    }
+    public function blog(){
+    	return view('front.blog');
+    }
+    public function privacy(){
+    	return view('front.privacy');
+    }
+    public function terms(){
+    	return view('front.terms');
+    }
+    public function blogDetail(){
+    	return view('front.blogDetail');
     }
     public function readAloud(Request $request){
         if($request->txt){

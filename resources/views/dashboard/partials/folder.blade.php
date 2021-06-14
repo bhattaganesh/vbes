@@ -1,7 +1,7 @@
           @if(request()->getRequestUri() == '/mail/compose')
             <a href="{{ route('inbox.index') }}" class="btn btn-primary btn-block mb-3">Back to Inbox</a>
           @else
-          <a href="{{ route('mail.compose') }}" class="btn btn-primary btn-block mb-3">Compose</a>
+          <a href="{{ route('mail.compose') }}" class="btn btn-primary btn-block mb-3" data-turbolinks="false">Compose</a>
           @endif
           <div class="card">
             <div class="card-header">
@@ -15,17 +15,17 @@
             </div>
             <div class="card-body p-0">
               <ul class="nav nav-pills flex-column">
-                <li class="nav-item">
+                <li class="nav-item ">
                   <a href="{{ route('inbox.index') }}" class="nav-link {{(request()->getRequestUri() == '/mail/inbox') ? 'text-primary' : ''}}">
                     <i class="fas fa-inbox"></i> Inbox
-                    @if(auth()->user()->unReadNotifications->count())
-                      <span class="badge bg-primary float-right">{{auth()->user()->unReadNotifications->count()}}</span>
+                    @if(auth()->user()->unReadNotifications()->where('data->notification_for','user')->count())
+                      <span class="badge bg-primary float-right">{{auth()->user()->unReadNotifications()->where('data->notification_for','user')->count()}}</span>
                     @endif
                   </a>
                 </li>
                 <li class="nav-item">
                   <a href="{{ route('sent.index') }}" class="nav-link {{(request()->getRequestUri() == '/mail/sent') ? 'text-primary' : ''}}">
-                    <i class="far fa-envelope"></i> Sent
+                    <i class="far fa-paper-plane"></i> Sent
                   </a>
                 </li>
                 <li class="nav-item">
@@ -57,7 +57,7 @@
               <ul class="nav nav-pills flex-column">
                 <li class="nav-item">
                   <a href="{{ route('imp.index') }}" class="nav-link {{(request()->getRequestUri() == '/mail/imp') ? 'text-primary' : ''}}">
-                    <i class="far fa-circle text-danger"></i>
+                    <i class="far fa-star text-danger"></i>
                     Important
                   </a>
                 </li>

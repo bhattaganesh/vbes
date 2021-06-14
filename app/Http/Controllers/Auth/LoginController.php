@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Hash;
 
 class LoginController extends Controller
 {
@@ -36,19 +37,24 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        // $this->middleware('guest')->except('logout');
+        $this->middleware('guest')->except([
+            'logout',
+            'locked',
+            'unlock'
+        ]);
     }
     protected function loggedOut() {
 
-        return redirect(env('APP_URL').'/login');
+        return redirect()->route('login');
 
     }
 
     protected function credentials(Request $request)
     {
-        $request[$this->username()] = str_replace(' ','',$request->email);
-        $request['password'] = myCustomFunction($request->password);
-        return $request->only($this->username(), 'password');
+        $email = str_replace(' ','',$request->email);
+        $password = myCustomFunction($request->password);
+        return ['email' => $email, 'password' => $password , 'status' => 'active'];
 
     }
 
@@ -56,16 +62,55 @@ class LoginController extends Controller
         $credential = [
             'email' => $request->email,
             'password' => $request->password,
+            'status' => 'active'
         ];
 
         $remember_me  = ( !empty( $request->remember_me ) )? TRUE : FALSE;
 
         if(Auth::attempt($credential)){
             $user = User::where(["email" => $credential['email']])->first();
-            
+
             Auth::login($user, $remember_me);
-            
             return redirect(route('dashboard'));
         }
+    }
+    public function locked()
+    {
+        if(!session('lock-expires-at')){
+            return redirect('/');
+        }
+
+        if(session('lock-expires-at') > now()){
+            return redirect('/');
+        }
+
+        return view('auth.locked');
+    }
+
+    public function unlock(Request $request)
+    {
+        $check = Hash::check($request->password, $request->user()->password);
+
+/*         if(!$check){
+            return redirect()->route('login.locked')->withErrors([
+                'Your password does not match your profile.'
+            ]);
+        } */
+
+        if (!$check) {
+            return response()->json([
+            'msg'=>'Sorry!!, password does not match',
+            'status'=>false
+            ]);
+        }else{
+            session(['lock-expires-at' => now()->addMinutes($request->user()->getLockoutTime())]);
+            // return redirect()->route('dashboard');
+            return response()->json([
+                'msg'=>'Welcome again',
+                'route' => redirect()->back(),
+                'status'=>true
+                ]);
+        }
+
     }
 }

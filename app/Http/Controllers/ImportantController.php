@@ -183,7 +183,7 @@ class ImportantController extends Controller
 
     public function deleteRecord(Request $request){
     if($request->del_record){
-        foreach ($request->del_record as $value) {
+        foreach (array_unique($request->del_record) as $value) {
           $this->important = $this->important->findOrFail($value);
           $record = $this->important;
           $status = $this->important->delete();
@@ -206,7 +206,7 @@ class ImportantController extends Controller
         $this->important = $this->important->findOrFail($request->id);
         $record = $this->important;
         $status = $this->important->delete();
-        if($status){ 
+        if($status){
           //  while deleting imp mail and  it(imp_id_type) is required to reset  imp_status in corresponding table if required
             $required_data = $record->draft_id != null ? $this->draft->find($record->draft_id) : ($record->inbox_id != null ? $this->inbox->find($record->inbox_id) : ($record->outbox_id != null ? $this->outbox->find($record->outbox_id) : $this->trash->find($record->trash_id)));
             if($required_data->isImp == 'yes'){

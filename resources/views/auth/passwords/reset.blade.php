@@ -1,26 +1,19 @@
 @extends('layouts.front')
-
+@section('title','Reset')
+@section('styles')
+<link rel="stylesheet" type="text/css" href="{{ asset('chat/css/adminlte.min.css') }}">
+@endsection
 @section('main')
-    <section id="breadcrumbs" class="breadcrumbs">
-      <div class="container">
-
-        <div class="d-flex justify-content-between align-items-center">
-          <h2>Password Reset Page</h2>
-          <ol>
-            <li><a href="index.html">Home</a></li>
-            <li>Password Reset</li>
-          </ol>
-        </div>
-
-      </div>
-    </section><!-- End Breadcrumbs -->
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Reset Password') }}</div>
-
+<section  class="contact">
+    <div class="container">
+        <div class="col-lg-5 col-md-6 col-sm-8 m-auto" style = "margin-top:-30px !important;" data-aos="fade-up" data-aos-delay="100">
+            <div class="card card-outline card-primary">
+                <div class="card-header text-center">
+                    <a href="#javascript:;" class="h3" onclick = "history.back();">
+                    <img src="{{ asset('img/favicon.png') }}" alt="" height = "45px;"><b style = "color:#00805c;">BES</b></a>
+                </div>
                 <div class="card-body">
+                    <p class="login-box-msg">Reset you password</p>
                     <form method="POST" action="{{ route('password.update') }}">
                         @csrf
 
